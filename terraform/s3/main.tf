@@ -4,7 +4,7 @@ provider "aws" {
   #secret_key = "update_keys"
 }
 resource "aws_s3_bucket" "demo" {
-     bucket = "qtreedemodatabuck"
+     bucket = "qtree-devops-bucket-1"
 }
 output "bucket_arn" {
     value = aws_s3_bucket.demo.arn
