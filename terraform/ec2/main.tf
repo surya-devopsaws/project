@@ -14,8 +14,5 @@ resource "aws_instance" "project1" {
   subnet_id       = "subnet-07dde7003a212c97c"
   security_groups = ["sg-0ef1c7ae494e93abb"]
   associate_public_ip_address = true
-  tags = {
-   key_name = "web"
-  }
 
 }
