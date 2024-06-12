@@ -1,7 +1,7 @@
 provider "aws" {
   region = "ap-south-1"
   #access_key = "update_keys"
-  #secret_key = "update_keys"
+  #secret_key = "update_"
 }
 resource "aws_s3_bucket" "demo" {
      bucket = "qtree-devops-bucket-4"
