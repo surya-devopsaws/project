@@ -4,7 +4,10 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/surya-devopsaws/qtree.git'
+                checkout scm: [$class: 'GitSCM', 
+                    branches: [[name: 'main']], 
+                    userRemoteConfigs: [[url: 'https://github.com/surya-devopsaws/qtree.git']]]
+            ]
             }
         }
         stage('Deploy to Server') {
@@ -19,8 +22,8 @@ pipeline {
                             transfers: [
                                 sshTransfer(
                                     sourceFiles: '**/*',
-                                    remoteDir: '',
-                                    execCommand: 'udo chown -R www-data:www-data /home'
+                                    remoteDir: '/var/www/html',
+                                    execCommand: 'sudo chown -R www-data:www-data /var/www/html'
                                 )
                             ]
                         )
