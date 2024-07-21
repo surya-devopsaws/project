@@ -1,12 +1,48 @@
-
 pipeline {
-    agent any
+    agent {
+        
+    }
 
     stages {
-        stage('Hello') {
+        stage('Checkout') {
             steps {
-                  echo 'Hello World'
+                script {
+                    // Checkout code from Git
+                    checkout([$class: 'GitSCM',
+                              branches: [[name: 'main']],
+                              userRemoteConfigs: [[url: 'https://github.com/surya-devopsaws/qtree.git',
+                                                  credentialsId: '']]]
+                    )
+                }
             }
         }
+
+
+
+
+        stage('Deploy') {
+            steps {
+                // Deploy your application using sshPublisher
+                sshPublisher(publishers: [sshPublisherDesc(
+                    configName: 'terraform',
+                    transfers: [sshTransfer(
+                        cleanRemote: false,
+                        excludes: '',
+                        execCommand: '',
+                        flatten: false,
+                        makeEmptyDirs: false,
+                        noDefaultExcludes: false,
+                        patternSeparator: '[, ]+',
+                        remoteDirectory: '/',
+                        remoteDirectorySDF: false,
+                        removePrefix: '',
+                        sourceFiles: '')],
+                    usePromotionTimestamp: false,
+                    useWorkspaceInPromotion: false,
+                    verbose: false
+                )])
+            }
+        }
+       
     }
 }
