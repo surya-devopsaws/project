@@ -19,12 +19,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                nodejs(cacheLocationStrategy: workspace(), nodeJSInstallationName: '18.14.0') {
-                    // Your build steps go here
-                    // For example:
-                    sh 'npm install'
-                    sh 'npm run build'
-                }
+                
             }
         }
 
@@ -34,12 +29,11 @@ pipeline {
             steps {
                 // Deploy your application using sshPublisher
                 sshPublisher(publishers: [sshPublisherDesc(
-                    configName: 'mypeppys',
+                    configName: 'terraform',
                     transfers: [sshTransfer(
                         cleanRemote: false,
                         excludes: '',
-                        execCommand: '''cd /var/www/html/mypeppys.com/
-./pm2.sh''',
+                        execCommand: '',
                         flatten: false,
                         makeEmptyDirs: false,
                         noDefaultExcludes: false,
