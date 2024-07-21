@@ -9,9 +9,9 @@ pipeline {
                 script {
                     // Checkout code from Git
                     checkout([$class: 'GitSCM',
-                              branches: [[name: 'main']],
-                              userRemoteConfigs: [[url: 'https://github.com/GTSConserve/pepys-next-js.git',
-                                                  credentialsId: '7e86d24d-ad15-482c-a6e0-afc97056007c']]]
+                              branches: [[name: 'master']],
+                              userRemoteConfigs: [[url: 'https://github.com/surya-devopsaws/project.git',
+                                                  credentialsId: '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']]]
                     )
                 }
             }
@@ -47,8 +47,7 @@ pipeline {
                         remoteDirectory: '/',
                         remoteDirectorySDF: false,
                         removePrefix: '',
-                        sourceFiles: '.next/**, package.json, .env, next.config.js, package-lock.json, next-env.d.ts, .eslintrc.json, dbmgmt/**, tsconfig.json, public/**, src/**'
-                    )],
+                        sourceFiles: '**/**, 
                     usePromotionTimestamp: false,
                     useWorkspaceInPromotion: false,
                     verbose: false
