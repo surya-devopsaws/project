@@ -8,4 +8,4 @@
       - name: start nginx service
         service:
             name: nginx
-            state: stopped
+            state: started
