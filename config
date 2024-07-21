@@ -1,0 +1,77 @@
+pipeline {
+    agent any
+    
+
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    // Checkout code from Git
+                    checkout([$class: 'GitSCM',
+                              branches: [[name: 'main']],
+                              userRemoteConfigs: [[url: 'https://github.com/GTSConserve/pepys-next-js.git',
+                                                  credentialsId: '7e86d24d-ad15-482c-a6e0-afc97056007c']]]
+                    )
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                nodejs(cacheLocationStrategy: workspace(), nodeJSInstallationName: '18.14.0') {
+                    // Your build steps go here
+                    // For example:
+                    sh 'npm install'
+                    sh 'npm run build'
+                }
+            }
+        }
+
+
+
+        stage('Deploy') {
+            steps {
+                // Deploy your application using sshPublisher
+                sshPublisher(publishers: [sshPublisherDesc(
+                    configName: 'mypeppys',
+                    transfers: [sshTransfer(
+                        cleanRemote: false,
+                        excludes: '',
+                        execCommand: '''cd /var/www/html/mypeppys.com/
+./pm2.sh''',
+                        flatten: false,
+                        makeEmptyDirs: false,
+                        noDefaultExcludes: false,
+                        patternSeparator: '[, ]+',
+                        remoteDirectory: '/',
+                        remoteDirectorySDF: false,
+                        removePrefix: '',
+                        sourceFiles: '.next/**, package.json, .env, next.config.js, package-lock.json, next-env.d.ts, .eslintrc.json, dbmgmt/**, tsconfig.json, public/**, src/**'
+                    )],
+                    usePromotionTimestamp: false,
+                    useWorkspaceInPromotion: false,
+                    verbose: false
+                )])
+            }
+        }
+        stage('SendMail') {
+            steps {
+                // Send an email notification using emailext plugin
+                emailext(
+                    attachLog: true,
+                    body: '''Hello Team,
+
+I\'m writing to share the practice of jenkins latest build result with you. 
+
+If you need more information about this build, you can download the build log file and review it.
+
+If you encounter any issues, kindly report them by replying to this email, and our Server Team will be happy to assist you.''',
+                    recipientProviders: [buildUser(), requestor(), developers()],
+                    replyTo: 'sivasurya5564@gmail.com',
+                    subject: '$DEFAULT_SUBJECT',
+                    to: 'sivasurya5564@gmail.com '
+                )
+            }
+        }
+    }
+}
