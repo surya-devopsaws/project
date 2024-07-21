@@ -48,24 +48,6 @@ pipeline {
                 )])
             
         }
-        stage('SendMail') {
-            steps {
-                // Send an email notification using emailext plugin
-                emailext(
-                    attachLog: true,
-                    body: '''Hello Team,
-
-I\'m writing to share the practice of jenkins latest build result with you. 
-
-If you need more information about this build, you can download the build log file and review it.
-
-If you encounter any issues, kindly report them by replying to this email, and our Server Team will be happy to assist you.''',
-                    recipientProviders: [buildUser(), requestor(), developers()],
-                    replyTo: 'sivasurya5564@gmail.com',
-                    subject: '$DEFAULT_SUBJECT',
-                    to: 'sivasurya5564@gmail.com '
-                )
-            }
-        }
-    }
+      
+    
 }
