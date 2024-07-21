@@ -4,10 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm: [$class: 'GitSCM', 
-                    branches: [[name: 'main']], 
-                    userRemoteConfigs: [[url: 'https://github.com/surya-devopsaws/qtree.git']]]
-            ]
+                git 'https://github.com/surya-devopsaws/qtree.git'
             }
         }
         stage('Deploy to Server') {
