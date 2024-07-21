@@ -46,7 +46,7 @@ pipeline {
                     useWorkspaceInPromotion: false,
                     verbose: false
                 )])
-            }
+            
         }
         stage('SendMail') {
             steps {
