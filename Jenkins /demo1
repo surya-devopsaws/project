@@ -10,7 +10,7 @@ pipeline {
                     // Checkout code from Git
                     checkout([$class: 'GitSCM',
                               branches: [[name: 'master']],
-                              userRemoteConfigs: [[url: 'https://github.com/surya-devopsaws/project.git',
+                              userRemoteConfigs: [[url: 'https://github.com/surya-devopsaws/qtree.git',
                                                   credentialsId: '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']]]
                     )
                 }
