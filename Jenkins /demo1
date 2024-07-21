@@ -20,7 +20,7 @@ pipeline {
                                 sshTransfer(
                                     sourceFiles: '**/*',
                                     remoteDir: '',
-                                    execCommand: ''
+                                    execCommand: 'udo chown -R www-data:www-data /home'
                                 )
                             ]
                         )
